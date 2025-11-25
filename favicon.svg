@@ -1,0 +1,17 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="64" height="64" rx="5" fill="black"/>
+<line x1="5.37" x2="5.37" y2="64" stroke="white" stroke-width="0.5"/>
+<line x1="14.33" x2="14.33" y2="64" stroke="white" stroke-width="0.5"/>
+<line x1="23.29" x2="23.29" y2="64" stroke="white" stroke-width="0.5"/>
+<line x1="32.25" x2="32.25" y2="64" stroke="white" stroke-width="0.5"/>
+<line x1="41.21" x2="41.21" y2="64" stroke="white" stroke-width="0.5"/>
+<line x1="50.17" x2="50.17" y2="64" stroke="white" stroke-width="0.5"/>
+<line x1="59.13" x2="59.13" y2="64" stroke="white" stroke-width="0.5"/>
+<line y1="58.63" x2="64" y2="58.63" stroke="#FF0000" stroke-width="0.5"/>
+<line y1="49.67" x2="64" y2="49.67" stroke="#FF0000" stroke-width="0.5"/>
+<line y1="40.71" x2="64" y2="40.71" stroke="#FF0000" stroke-width="0.5"/>
+<line y1="31.75" x2="64" y2="31.75" stroke="#FF0000" stroke-width="0.5"/>
+<line y1="22.79" x2="64" y2="22.79" stroke="#FF0000" stroke-width="0.5"/>
+<line y1="13.83" x2="64" y2="13.83" stroke="#FF0000" stroke-width="0.5"/>
+<line y1="4.87" x2="64" y2="4.87" stroke="#FF0000" stroke-width="0.5"/>
+</svg>
