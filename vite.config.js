@@ -8,6 +8,7 @@ export default defineConfig({
     tailwindcss(),
   ],
   publicDir: 'public',
+  // base: '/Angwe-Chima-Site/', 
   server: {
     port: 5173,
     proxy: {
