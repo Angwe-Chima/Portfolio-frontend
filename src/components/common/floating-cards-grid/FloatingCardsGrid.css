@@ -25,7 +25,7 @@
 }
 
 .floating-card:hover {
-  box-shadow: 0 25px 50px rgba(37, 99, 235, 0.3);
+  box-shadow: 0 25px 50px rgba(235, 37, 37, 0.3);
 }
 
 .floating-card img {

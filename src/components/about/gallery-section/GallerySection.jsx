@@ -5,18 +5,16 @@ import { useFetch } from '../../../hooks/useFetch';
 import { getAllGalleryImages } from '../../../services/galleryService';
 import Loader from '../../common/loader/Loader';
 import ErrorMessage from '../../common/error-message/ErrorMessage';
-import { containerVariants, fadeInUp } from '../../../utils/animations';
 import './GallerySection.css';
 
 const GallerySection = () => {
   const [selectedPostId, setSelectedPostId] = useState(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const {
-    data: posts,
-    loading,
-    error,
-    refetch,
-  } = useFetch(getAllGalleryImages);
+  const [touchStart, setTouchStart] = useState(null);
+  const [touchEnd, setTouchEnd] = useState(null);
+  const [dragX, setDragX] = useState(0);
+
+  const { data: posts, loading, error, refetch } = useFetch(getAllGalleryImages);
 
   const openLightbox = (postId) => {
     setSelectedPostId(postId);
@@ -30,8 +28,10 @@ const GallerySection = () => {
     document.body.style.overflow = 'unset';
   };
 
+  const selectedPost = posts?.find((p) => p._id === selectedPostId);
+  const hasMultipleImages = selectedPost && selectedPost.imageUrls.length > 1;
+
   const nextImage = () => {
-    const selectedPost = posts.find((p) => p._id === selectedPostId);
     if (selectedPost) {
       setCurrentImageIndex((prev) =>
         prev === selectedPost.imageUrls.length - 1 ? 0 : prev + 1
@@ -40,12 +40,37 @@ const GallerySection = () => {
   };
 
   const prevImage = () => {
-    const selectedPost = posts.find((p) => p._id === selectedPostId);
     if (selectedPost) {
       setCurrentImageIndex((prev) =>
         prev === 0 ? selectedPost.imageUrls.length - 1 : prev - 1
       );
     }
+  };
+
+  const handleTouchStart = (e) => {
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchMove = (e) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+    if (touchStart) {
+      setDragX(e.targetTouches[0].clientX - touchStart);
+    }
+  };
+
+  const handleTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > 50;
+    const isRightSwipe = distance < -50;
+
+    if (isLeftSwipe) nextImage();
+    if (isRightSwipe) prevImage();
+
+    setTouchStart(null);
+    setTouchEnd(null);
+    setDragX(0);
   };
 
   // Keyboard navigation
@@ -59,7 +84,7 @@ const GallerySection = () => {
     };
     window.addEventListener('keydown', handleKeyboard);
     return () => window.removeEventListener('keydown', handleKeyboard);
-  }, [selectedPostId, posts]);
+  }, [selectedPostId, selectedPost]);
 
   if (loading) {
     return (
@@ -81,12 +106,9 @@ const GallerySection = () => {
     return null;
   }
 
-  const selectedPost = posts.find((p) => p._id === selectedPostId);
-  const hasMultipleImages =
-    selectedPost && selectedPost.imageUrls.length > 1;
-
   return (
     <section className="gallery-section">
+      {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -99,138 +121,164 @@ const GallerySection = () => {
         </p>
       </motion.div>
 
-      <motion.div
-        className="gallery-grid"
-        variants={containerVariants}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true }}
-      >
+      {/* Gallery Grid */}
+      <motion.div className="gallery-grid">
         {posts.map((post) => (
           <motion.div
             key={post._id}
             className="gallery-item"
-            variants={fadeInUp}
-            whileHover={{ scale: 1.05 }}
             onClick={() => openLightbox(post._id)}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
           >
-            <img
+            <motion.img
               src={post.imageUrls[0]}
               alt={post.title}
               className="gallery-image"
+              whileHover={{ scale: 1.1 }}
             />
-            <div className="gallery-overlay">
+            <motion.div
+              className="gallery-overlay"
+              initial={{ opacity: 0 }}
+              whileHover={{ opacity: 1 }}
+            >
               <h3 className="gallery-title">{post.title}</h3>
               {post.category && (
                 <span className="gallery-category">{post.category}</span>
               )}
-            </div>
+              {post.imageUrls.length > 1 && (
+                <div className="gallery-badge">{post.imageUrls.length} photos</div>
+              )}
+            </motion.div>
           </motion.div>
         ))}
       </motion.div>
 
-      {/* Lightbox Modal */}
-      <AnimatePresence>
+      {/* Card-Based Lightbox */}
+      <AnimatePresence mode="wait">
         {selectedPost && (
           <motion.div
-            className="gallery-lightbox"
+            className="gallery-backdrop"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={closeLightbox}
           >
-            <button className="lightbox-close" onClick={closeLightbox}>
-              <FaTimes size={24} />
-            </button>
-
-            {/* Navigation Buttons (only if multiple images) */}
-            {hasMultipleImages && (
-              <>
-                <button
-                  className="lightbox-nav lightbox-nav-prev"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    prevImage();
-                  }}
-                  aria-label="Previous image"
-                >
-                  <FaChevronLeft size={28} />
-                </button>
-
-                <button
-                  className="lightbox-nav lightbox-nav-next"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    nextImage();
-                  }}
-                  aria-label="Next image"
-                >
-                  <FaChevronRight size={28} />
-                </button>
-              </>
-            )}
-
             <motion.div
-              className="lightbox-content"
-              initial={{ scale: 0.8 }}
-              animate={{ scale: 1 }}
-              exit={{ scale: 0.8 }}
+              className="gallery-card-container"
+              initial={{ scale: 0.5, opacity: 0, y: 50 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.5, opacity: 0, y: 50 }}
+              transition={{ type: 'spring', stiffness: 200, damping: 30 }}
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="lightbox-image-wrapper">
+              {/* Close Button */}
+              <motion.button
+                className="card-close-btn"
+                onClick={closeLightbox}
+                whileHover={{ scale: 1.1, rotate: 90 }}
+                whileTap={{ scale: 0.9 }}
+              >
+                <FaTimes />
+              </motion.button>
+
+              {/* Image Container with Swipe */}
+              <div
+                className="gallery-card-image-wrapper"
+                onTouchStart={handleTouchStart}
+                onTouchMove={handleTouchMove}
+                onTouchEnd={handleTouchEnd}
+              >
                 <AnimatePresence mode="wait">
                   <motion.img
                     key={currentImageIndex}
                     src={selectedPost.imageUrls[currentImageIndex]}
                     alt={selectedPost.title}
-                    className="lightbox-image"
-                    initial={{ opacity: 0, x: 100 }}
+                    className="gallery-card-image"
+                    initial={{ opacity: 0, x: dragX > 0 ? -100 : 100 }}
                     animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -100 }}
+                    exit={{ opacity: 0, x: dragX > 0 ? 100 : -100 }}
                     transition={{ duration: 0.3 }}
                   />
                 </AnimatePresence>
-              </div>
 
-              <div className="lightbox-info">
-                <h3 className="lightbox-title">{selectedPost.title}</h3>
-                {selectedPost.description && (
-                  <p className="lightbox-description">
-                    {selectedPost.description}
-                  </p>
-                )}
-                {selectedPost.category && (
-                  <span className="lightbox-category">
-                    {selectedPost.category}
-                  </span>
-                )}
-              </div>
-
-              {/* Image Counter (only if multiple images) */}
-              {hasMultipleImages && (
-                <div className="lightbox-counter">
-                  {currentImageIndex + 1} / {selectedPost.imageUrls.length}
-                </div>
-              )}
-
-              {/* Dot Indicators (only if multiple images) */}
-              {hasMultipleImages && (
-                <div className="lightbox-indicators">
-                  {selectedPost.imageUrls.map((_, index) => (
-                    <button
-                      key={index}
-                      className={`lightbox-indicator ${
-                        index === currentImageIndex ? 'active' : ''
-                      }`}
+                {/* Navigation Arrows */}
+                {hasMultipleImages && (
+                  <>
+                    <motion.button
+                      className="card-nav-btn card-nav-prev"
                       onClick={(e) => {
                         e.stopPropagation();
-                        setCurrentImageIndex(index);
+                        prevImage();
                       }}
-                      aria-label={`Go to image ${index + 1}`}
-                    />
-                  ))}
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.9 }}
+                    >
+                      <FaChevronLeft />
+                    </motion.button>
+                    <motion.button
+                      className="card-nav-btn card-nav-next"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        nextImage();
+                      }}
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.9 }}
+                    >
+                      <FaChevronRight />
+                    </motion.button>
+                  </>
+                )}
+
+                {/* Image Counter */}
+                {hasMultipleImages && (
+                  <motion.div
+                    className="image-counter"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                  >
+                    {currentImageIndex + 1} / {selectedPost.imageUrls.length}
+                  </motion.div>
+                )}
+              </div>
+
+              {/* Content Section */}
+              <motion.div
+                className="gallery-card-content"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1 }}
+              >
+                <div>
+                  <h3 className="card-title">{selectedPost.title}</h3>
+                  {selectedPost.category && (
+                    <span className="card-category">{selectedPost.category}</span>
+                  )}
                 </div>
-              )}
+
+                {selectedPost.description && (
+                  <p className="card-description">{selectedPost.description}</p>
+                )}
+
+                {/* Dot Indicators */}
+                {hasMultipleImages && (
+                  <motion.div className="card-indicators">
+                    {selectedPost.imageUrls.map((_, index) => (
+                      <motion.button
+                        key={index}
+                        className={`indicator-dot ${
+                          index === currentImageIndex ? 'active' : ''
+                        }`}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setCurrentImageIndex(index);
+                        }}
+                        whileHover={{ scale: 1.3 }}
+                      />
+                    ))}
+                  </motion.div>
+                )}
+              </motion.div>
             </motion.div>
           </motion.div>
         )}
