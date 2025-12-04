@@ -1,0 +1,1 @@
+import{j as m,m as p}from"./index-BLQzyTPL.js";const c=({children:o,variant:s="primary",onClick:n,type:r="button",disabled:t=!1,className:a="",...e})=>m.jsx(p.button,{whileHover:{scale:t?1:1.05},whileTap:{scale:t?1:.95},className:`btn btn-${s} ${a}`,onClick:n,type:r,disabled:t,...e,children:o});export{c as B};
