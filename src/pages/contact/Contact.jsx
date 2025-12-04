@@ -102,7 +102,7 @@ const Contact = () => {
         </div>
 
         {/* Social Links */}
-        <SocialLinks />
+        <SocialLinks />z
       </div>
     </div>
   );

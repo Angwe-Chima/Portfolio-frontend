@@ -6,7 +6,7 @@ import Button from '../../common/button/Button';
 import './Hero.css';
 
 const Hero = () => {
-  const name = "Chima Angwe".split("");
+  const name = 'Chima Angwe'.split('');
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -42,7 +42,7 @@ const Hero = () => {
           >
             {name.map((char, index) => (
               <motion.span key={index} variants={letterVariants}>
-                {char === " " ? "\u00A0" : char}
+                {char === ' ' ? '\u00A0' : char}
               </motion.span>
             ))}
           </motion.h1>
@@ -66,7 +66,8 @@ const Hero = () => {
           >
             Building amazing web experiences with the MERN stack.
             <br />
-            Passionate about creating beautiful, functional, and user-friendly applications.
+            Passionate about creating beautiful, functional, and user-friendly
+            applications.
           </motion.p>
 
           {/* CTA Buttons */}
@@ -92,7 +93,7 @@ const Hero = () => {
             transition={{ delay: 1.4, duration: 0.6 }}
           >
             <a
-              href="https://github.com/yourusername"
+              href="https://github.com/angwe-chima"
               target="_blank"
               rel="noopener noreferrer"
               className="hero-social-link"
@@ -100,7 +101,7 @@ const Hero = () => {
               <FaGithub size={24} />
             </a>
             <a
-              href="https://linkedin.com/in/yourusername"
+              href="https://www.linkedin.com/in/angwe-chima-679560274/"
               target="_blank"
               rel="noopener noreferrer"
               className="hero-social-link"

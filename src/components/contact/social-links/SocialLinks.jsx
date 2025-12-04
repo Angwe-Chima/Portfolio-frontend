@@ -9,13 +9,13 @@ const SocialLinks = () => {
     {
       name: 'GitHub',
       icon: FaGithub,
-      url: 'https://github.com/yourusername',
+      url: 'https://github.com/angwe-chima',
       color: '#181717',
     },
     {
       name: 'LinkedIn',
       icon: FaLinkedin,
-      url: 'https://linkedin.com/in/yourusername',
+      url: 'https://www.linkedin.com/in/angwe-chima-679560274/',
       color: '#0A66C2',
     },
     {

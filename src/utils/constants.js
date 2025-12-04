@@ -21,8 +21,8 @@ export const BLOG_CATEGORIES = [
 
 // Social media links
 export const SOCIAL_LINKS = {
-  github: 'https://github.com/yourusername',
-  linkedin: 'https://linkedin.com/in/yourusername',
+  github: 'https://github.com/angwe-chima',
+  linkedin: 'https://linkedin.com/in/angwe-chima-679560274',
   X: 'https://X.com/angwechima',
   email: 'angwechima@gmail.com',
 };
