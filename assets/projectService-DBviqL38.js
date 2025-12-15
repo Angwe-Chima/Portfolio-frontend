@@ -1,1 +1,0 @@
-import{I as s}from"./index-Nnme1ILz.js";const o=async()=>(await s.get("/projects")).data,n=async()=>(await s.get("/projects/featured")).data,c=async e=>(await s.post("/projects",e)).data,p=async(e,t)=>(await s.put(`/projects/${e}`,t)).data,d=async e=>(await s.delete(`/projects/${e}`)).data;export{n as a,c,d,o as g,p as u};
