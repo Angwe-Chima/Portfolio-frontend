@@ -30,32 +30,33 @@ const Footer = () => {
 
   return (
     <footer className="footer">
-      <div className="footer-content container-custom">
-        <div className="footer-inner">
-          {/* Copyright */}
-          <p className="footer-copyright">
-            © {currentYear} Chima Angwe. Built with ❤️ using MERN Stack
-          </p>
+      <div className="footer-content">
+        {/* Name */}
+        <h2 className="footer-name">Angwe Chima</h2>
 
-          {/* Social Links */}
-          <div className="footer-social">
-            {socialLinks.map((link) => {
-              const Icon = link.icon;
-              return (
-                <a
-                  key={link.name}
-                  href={link.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="footer-social-link"
-                  aria-label={link.name}
-                >
-                  <Icon size={24} />
-                </a>
-              );
-            })}
-          </div>
+        {/* Social Links */}
+        <div className="footer-social">
+          {socialLinks.map((link) => {
+            const Icon = link.icon;
+            return (
+              <a
+                key={link.name}
+                href={link.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="footer-social-link"
+                aria-label={link.name}
+              >
+                <Icon size={24} />
+              </a>
+            );
+          })}
         </div>
+
+        {/* Copyright */}
+        <p className="footer-copyright">
+          © {currentYear} All rights reserved.
+        </p>
       </div>
     </footer>
   );
