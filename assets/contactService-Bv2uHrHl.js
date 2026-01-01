@@ -1,0 +1,1 @@
+import{J as t}from"./index-B5KTeSSJ.js";const n=async s=>(await t.post("/contact",s)).data,o=async()=>(await t.get("/contact")).data,c=async s=>(await t.patch(`/contact/${s}/read`)).data,r=async s=>(await t.delete(`/contact/${s}`)).data;export{r as d,o as g,c as m,n as s};

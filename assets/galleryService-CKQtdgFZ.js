@@ -1,1 +1,0 @@
-import{J as s}from"./index-Bv38zTD5.js";const n=async()=>(await s.get("/gallery")).data,o=async e=>(await s.post("/gallery",e)).data,l=async(e,a)=>(await s.put(`/gallery/${e}`,a)).data,c=async(e,a)=>(await s.delete(`/gallery/${e}/images/${a}`)).data,p=async e=>(await s.delete(`/gallery/${e}`)).data;export{o as c,p as d,n as g,c as r,l as u};
