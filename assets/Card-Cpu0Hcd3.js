@@ -1,0 +1,1 @@
+import{j as r,m as a}from"./index-BL_n9eQa.js";const n=({children:i,className:t="",hover:o=!0})=>r.jsx(a.div,{initial:{opacity:0,y:20},whileInView:{opacity:1,y:0},viewport:{once:!0},whileHover:o?{y:-5,transition:{duration:.3}}:{},className:`card ${t}`,children:i});export{n as C};
