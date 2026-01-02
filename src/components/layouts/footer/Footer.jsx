@@ -9,17 +9,17 @@ const Footer = () => {
     {
       name: 'GitHub',
       icon: FaGithub,
-      url: 'https://github.com/angwe-chima',
+      url: 'https://github.com/chima-angwe',
     },
     {
       name: 'LinkedIn',
       icon: FaLinkedin,
-      url: 'https://www.linkedin.com/in/angwe-chima-679560274/',
+      url: 'https://www.linkedin.com/in/chima-angwe-679560274/',
     },
     {
       name: 'Twitter',
       icon: FaTwitter,
-      url: 'https://x.com/angwechima',
+      url: 'https://x.com/chimaangwe',
     },
     {
       name: 'Email',

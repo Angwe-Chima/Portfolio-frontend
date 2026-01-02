@@ -9,19 +9,19 @@ const SocialLinks = () => {
     {
       name: 'GitHub',
       icon: FaGithub,
-      url: 'https://github.com/angwe-chima',
+      url: 'https://github.com/chima-angwe',
       color: '#181717',
     },
     {
       name: 'LinkedIn',
       icon: FaLinkedin,
-      url: 'https://www.linkedin.com/in/angwe-chima-679560274/',
+      url: 'https://www.linkedin.com/in/chima-angwe-679560274/',
       color: '#0A66C2',
     },
     {
       name: 'X',
       icon: FaTwitter,
-      url: 'https://x.com/angwechima',
+      url: 'https://x.com/chimaangwe',
       color: '#1DA1F2',
     },
     {

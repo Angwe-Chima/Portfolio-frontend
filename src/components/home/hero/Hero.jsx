@@ -93,7 +93,7 @@ const Hero = () => {
             transition={{ delay: 1.4, duration: 0.6 }}
           >
             <a
-              href="https://github.com/angwe-chima"
+              href="https://github.com/chima-angwe"
               target="_blank"
               rel="noopener noreferrer"
               className="hero-social-link"
@@ -101,7 +101,7 @@ const Hero = () => {
               <FaGithub size={24} />
             </a>
             <a
-              href="https://www.linkedin.com/in/angwe-chima-679560274/"
+              href="https://www.linkedin.com/in/chima-angwe-679560274/"
               target="_blank"
               rel="noopener noreferrer"
               className="hero-social-link"
